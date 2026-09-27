@@ -7,7 +7,7 @@ class StudentsController {
     readDatabase(databaseFile)
       .then((fields) => {
         const responseParts = ['This is the list of our students'];
-        const sortedFields = Object.keys(fields).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+        const sortedFields = Object.keys(fields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
         for (const field of sortedFields) {
           const names = fields[field];
@@ -43,4 +43,3 @@ class StudentsController {
 }
 
 export default StudentsController;
-export { StudentsController };
