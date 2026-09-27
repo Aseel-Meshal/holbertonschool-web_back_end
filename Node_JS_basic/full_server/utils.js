@@ -41,3 +41,6 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
 
 export default readDatabase;
 export { readDatabase };
+module.exports = readDatabase;
+module.exports.default = readDatabase;
+module.exports.readDatabase = readDatabase;
