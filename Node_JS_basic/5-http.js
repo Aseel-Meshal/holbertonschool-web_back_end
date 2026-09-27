@@ -1,11 +1,12 @@
-// Task 5: HTTP server serving homepage and student list dynamically
 const http = require('http');
 const fs = require('fs');
 
-const dbPath = process.argv[2];
-
 function countStudents(path) {
   return new Promise((resolve, reject) => {
+    if (!path) {
+      reject(new Error('Cannot load the database'));
+      return;
+    }
     fs.readFile(path, 'utf-8', (err, data) => {
       if (err) {
         reject(new Error('Cannot load the database'));
@@ -47,20 +48,24 @@ function countStudents(path) {
   });
 }
 
-const app = http.createServer(async (req, res) => {
+const app = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
 
   if (req.url === '/') {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
-    res.write('This is the list of our students\n');
-    try {
-      const studentsData = await countStudents(dbPath);
-      res.end(studentsData);
-    } catch (err) {
-      res.end(err.message);
-    }
+    const responseParts = ['This is the list of our students'];
+    const dbPath = process.argv[2];
+    countStudents(dbPath)
+      .then((data) => {
+        responseParts.push(data);
+        res.end(responseParts.join('\n'));
+      })
+      .catch((err) => {
+        responseParts.push(err.message);
+        res.end(responseParts.join('\n'));
+      });
   } else {
     res.end('Hello Holberton School!');
   }

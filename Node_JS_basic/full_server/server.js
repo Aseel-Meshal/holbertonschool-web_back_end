@@ -1,4 +1,3 @@
-// Task 8.5: Main server initialization for full_server using Express
 import express from 'express';
 import router from './routes/index';
 

@@ -1,11 +1,12 @@
-// Task 7: Express server handling homepage and students routes
 const express = require('express');
 const fs = require('fs');
 
-const dbPath = process.argv[2];
-
 function countStudents(path) {
   return new Promise((resolve, reject) => {
+    if (!path) {
+      reject(new Error('Cannot load the database'));
+      return;
+    }
     fs.readFile(path, 'utf-8', (err, data) => {
       if (err) {
         reject(new Error('Cannot load the database'));
@@ -54,16 +55,17 @@ app.get('/', (req, res) => {
   res.send('Hello Holberton School!');
 });
 
-app.get('/students', async (req, res) => {
-  let responseText = 'This is the list of our students\n';
-  try {
-    const studentsData = await countStudents(dbPath);
-    responseText += studentsData;
-    res.send(responseText);
-  } catch (err) {
-    responseText += err.message;
-    res.send(responseText);
-  }
+app.get('/students', (req, res) => {
+  const dbPath = process.argv[2];
+  countStudents(dbPath)
+    .then((data) => {
+      res.set('Content-Type', 'text/plain');
+      res.send(`This is the list of our students\n${data}`);
+    })
+    .catch((err) => {
+      res.set('Content-Type', 'text/plain');
+      res.send(`This is the list of our students\n${err.message}`);
+    });
 });
 
 app.listen(port);

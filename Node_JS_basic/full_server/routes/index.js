@@ -1,4 +1,3 @@
-// Task 8.4: Express router setup mapping endpoints to controllers
 import { Router } from 'express';
 import AppController from '../controllers/AppController';
 import StudentsController from '../controllers/StudentsController';

@@ -1,4 +1,3 @@
-// Task 6: Small Express server for root route
 const express = require('express');
 
 const app = express();
