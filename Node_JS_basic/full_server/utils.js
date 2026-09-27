@@ -5,24 +5,24 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
     reject(new Error('Cannot load the database'));
     return;
   }
-  fs.readFile(filePath, 'utf-8', (err, data) => {
+  fs.readFile(filePath, (err, data) => {
     if (err) {
       reject(new Error('Cannot load the database'));
       return;
     }
-
-    const lines = data.split('\n');
+    const fileContent = data.toString().trim();
+    const lines = fileContent.split('\n');
+    const students = lines.slice(1);
     const fields = {};
 
-    lines.forEach((line) => {
+    for (const line of students) {
       const trimmedLine = line.trim();
       if (trimmedLine) {
-        const parts = trimmedLine.split(',');
-        if (parts.length >= 4) {
-          const firstname = parts[0].trim();
-          const field = parts[3].trim();
-
-          if (firstname && field && field !== 'field') {
+        const student = trimmedLine.split(',');
+        if (student.length >= 4) {
+          const firstname = student[0].trim();
+          const field = student[3].trim();
+          if (firstname && field) {
             if (!fields[field]) {
               fields[field] = [];
             }
@@ -30,10 +30,10 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
           }
         }
       }
-    });
-
+    }
     resolve(fields);
   });
 });
 
 export default readDatabase;
+export { readDatabase };
