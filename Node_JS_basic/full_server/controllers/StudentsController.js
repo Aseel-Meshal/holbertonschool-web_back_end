@@ -9,10 +9,10 @@ class StudentsController {
         const responseParts = ['This is the list of our students'];
         const sortedFields = Object.keys(fields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-        for (const field of sortedFields) {
+        sortedFields.forEach((field) => {
           const names = fields[field];
           responseParts.push(`Number of students in ${field}: ${names.length}. List: ${names.join(', ')}`);
-        }
+        });
 
         response.status(200).send(responseParts.join('\n'));
       })

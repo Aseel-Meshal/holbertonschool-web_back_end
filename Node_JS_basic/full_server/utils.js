@@ -11,26 +11,23 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
       return;
     }
 
-    const lines = data.split('\n').filter((line) => line.trim() !== '');
-    if (lines.length <= 1) {
-      resolve({});
-      return;
-    }
-
-    const students = lines.slice(1);
+    const lines = data.split('\n');
     const fields = {};
 
-    students.forEach((line) => {
-      const parts = line.split(',');
-      if (parts.length >= 4) {
-        const firstname = parts[0].trim();
-        const field = parts[3].trim();
+    lines.forEach((line) => {
+      const trimmedLine = line.trim();
+      if (trimmedLine) {
+        const parts = trimmedLine.split(',');
+        if (parts.length >= 4) {
+          const firstname = parts[0].trim();
+          const field = parts[3].trim();
 
-        if (firstname && field) {
-          if (!fields[field]) {
-            fields[field] = [];
+          if (firstname && field && field !== 'field') {
+            if (!fields[field]) {
+              fields[field] = [];
+            }
+            fields[field].push(firstname);
           }
-          fields[field].push(firstname);
         }
       }
     });
