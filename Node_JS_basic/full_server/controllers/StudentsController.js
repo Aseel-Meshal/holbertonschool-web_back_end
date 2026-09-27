@@ -2,7 +2,7 @@ import readDatabase from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
-    const databaseFile = process.argv[2] || '';
+    const databaseFile = process.argv[2];
 
     readDatabase(databaseFile)
       .then((fields) => {
@@ -29,7 +29,7 @@ class StudentsController {
       return;
     }
 
-    const databaseFile = process.argv[2] || '';
+    const databaseFile = process.argv[2];
 
     readDatabase(databaseFile)
       .then((fields) => {
@@ -43,4 +43,3 @@ class StudentsController {
 }
 
 export default StudentsController;
-export { StudentsController };

@@ -55,16 +55,14 @@ const app = http.createServer((req, res) => {
   if (req.url === '/') {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
-    const responseParts = ['This is the list of our students'];
+    res.write('This is the list of our students\n');
     const dbPath = process.argv[2];
     countStudents(dbPath)
       .then((data) => {
-        responseParts.push(data);
-        res.end(responseParts.join('\n'));
+        res.end(data);
       })
       .catch((err) => {
-        responseParts.push(err.message);
-        res.end(responseParts.join('\n'));
+        res.end(err.message);
       });
   } else {
     res.end('Hello Holberton School!');
