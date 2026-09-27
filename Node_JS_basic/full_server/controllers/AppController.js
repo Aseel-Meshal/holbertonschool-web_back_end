@@ -5,4 +5,3 @@ class AppController {
 }
 
 export default AppController;
-export { AppController };
