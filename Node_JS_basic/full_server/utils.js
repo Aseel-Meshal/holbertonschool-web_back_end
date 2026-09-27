@@ -1,10 +1,13 @@
-// Task 8.1: Async database reader utility for full_server
 import fs from 'fs';
 
 const readDatabase = (filePath) => new Promise((resolve, reject) => {
+  if (!filePath) {
+    reject(new Error('Cannot load the database'));
+    return;
+  }
   fs.readFile(filePath, 'utf-8', (err, data) => {
     if (err) {
-      reject(new Error('Cannot load the database'));
+      reject(err);
       return;
     }
 

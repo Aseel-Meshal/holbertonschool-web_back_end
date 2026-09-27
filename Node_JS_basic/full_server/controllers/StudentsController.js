@@ -1,14 +1,13 @@
-// Task 8.3: StudentsController for student listing and major filtering
 import readDatabase from '../utils';
 
 class StudentsController {
   static getAllStudents(request, response) {
-    const databaseFile = process.argv[2];
+    const databaseFile = process.argv[2] || '';
 
     readDatabase(databaseFile)
       .then((fields) => {
         const responseParts = ['This is the list of our students'];
-        const sortedFields = Object.keys(fields).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+        const sortedFields = Object.keys(fields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
         for (const field of sortedFields) {
           const names = fields[field];
@@ -30,7 +29,7 @@ class StudentsController {
       return;
     }
 
-    const databaseFile = process.argv[2];
+    const databaseFile = process.argv[2] || '';
 
     readDatabase(databaseFile)
       .then((fields) => {
@@ -44,3 +43,4 @@ class StudentsController {
 }
 
 export default StudentsController;
+export { StudentsController };
